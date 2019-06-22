@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
 import {
-  StyleSheet, View, Dimensions, SafeAreaView, Animated, TextInput,
+  StyleSheet, View, Dimensions, SafeAreaView, Animated, TextInput, StatusBar,
 } from 'react-native';
 import { Svg } from 'expo';
 
@@ -63,10 +63,10 @@ export default class App extends React.Component {
 
   componentDidMount() {
     const { x } = this.state;
-    x.addListener(({ value }) => {
+    x.addListener(({ value }) => requestAnimationFrame(() => {
       const { x: left, y: top } = properties.getPointAtLength(totalLength - value);
       this.update(top, left);
-    });
+    }));
     const { y: top, x: left } = properties.getPointAtLength(totalLength);
     this.update(top, left);
   }
@@ -80,9 +80,9 @@ export default class App extends React.Component {
     });
     return (
       <SafeAreaView style={styles.root}>
+        <StatusBar barStyle="dark-content" />
         <View style={styles.container}>
           <Svg {...{ width, height }}>
-            <View ref={this.cursor} style={styles.cursor} />
             <Defs>
               <LinearGradient id="gradient" x1="50%" y1="0%" x2="50%" y2="100%">
                 <Stop offset="0%" stopColor="#cee3f9" />
@@ -95,8 +95,11 @@ export default class App extends React.Component {
           </Svg>
           <View style={StyleSheet.absoluteFill}>
             <Animated.View style={[styles.label, { transform: [{ translateX }, { translateY: -45 }] }]}>
-              <TextInput ref={this.label} />
+              <TextInput underlineColorAndroid="transparent" ref={this.label} />
             </Animated.View>
+          </View>
+          <View style={StyleSheet.absoluteFill}>
+            <View ref={this.cursor} style={styles.cursor} />
           </View>
           <Animated.ScrollView
             style={StyleSheet.absoluteFill}
@@ -125,6 +128,7 @@ export default class App extends React.Component {
 const styles = StyleSheet.create({
   root: {
     flex: 1,
+    justifyContent: 'center',
   },
   container: {
     marginTop: 80,
