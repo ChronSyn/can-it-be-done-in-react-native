@@ -1,12 +1,13 @@
 {
   "expo": {
-    "name": "circular-progress",
-    "slug": "circular-progress",
+    "name": "bbc-iplayer",
+    "slug": "bbc-iplayer",
     "privacy": "public",
     "sdkVersion": "33.0.0",
     "platforms": [
       "ios",
-      "android"
+      "android",
+      "web"
     ],
     "version": "1.0.0",
     "orientation": "portrait",
